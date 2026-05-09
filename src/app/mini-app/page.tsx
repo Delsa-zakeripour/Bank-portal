@@ -15,11 +15,14 @@ import Dashboard from "./dashboard/page";
 import Transactions from "./transactions/page";
 import Transfer from "./transfer/page";
 import Cards from "./cards/page";
-// import  LandingPage  from "./mini-app/LandingPage";÷
+import { useRouter } from "next/navigation";
+// import  LandingPage  from "./mini-app/LandingPage";
 
 type Page = "dashboard" | "transactions" | "transfer" | "cards";
 
 export default function App() {
+  const router = useRouter();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentPage, setCurrentPage] = useState<Page>("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -52,9 +55,8 @@ export default function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    setCurrentPage("dashboard");
+    router.push("/");
   };
-
   // if (!isLoggedIn) {
   //   return <LandingPage onLogin={handleLogin} />;
   // }

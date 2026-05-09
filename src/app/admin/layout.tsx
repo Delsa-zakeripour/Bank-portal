@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 
-type MiniAppProps = {
+type AdminLayoutProps = {
   children: ReactNode;
 };
 
-export default function MiniAppLayout({ children }: MiniAppProps) {
+export default function AdminLayout({ children }: AdminLayoutProps) {
   return <>{children}</>;
 }
