@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { registerSchema } from "@/lib/validations/auth";
+import { registerSchema } from "@/lib/validations/auth.schema";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -71,12 +71,19 @@ export default function RegisterPage() {
   return (
     <main className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-2xl border border-neutral-200 bg-white p-8 shadow-2xl">
-        <h1 className="mb-2 text-3xl font-bold text-neutral-900">Create account</h1>
-        <p className="mb-8 text-neutral-600">Join BankPro and start managing your money.</p>
+        <h1 className="mb-2 text-3xl font-bold text-neutral-900">
+          Create account
+        </h1>
+        <p className="mb-8 text-neutral-600">
+          Join BankPro and start managing your money.
+        </p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="name" className="mb-2 block text-sm font-medium text-neutral-700">
+            <label
+              htmlFor="name"
+              className="mb-2 block text-sm font-medium text-neutral-700"
+            >
               Full name
             </label>
             <input
@@ -90,7 +97,10 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="email" className="mb-2 block text-sm font-medium text-neutral-700">
+            <label
+              htmlFor="email"
+              className="mb-2 block text-sm font-medium text-neutral-700"
+            >
               Email
             </label>
             <input
@@ -105,7 +115,10 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="mb-2 block text-sm font-medium text-neutral-700">
+            <label
+              htmlFor="password"
+              className="mb-2 block text-sm font-medium text-neutral-700"
+            >
               Password
             </label>
             <input
@@ -152,7 +165,10 @@ export default function RegisterPage() {
 
         <p className="mt-6 text-center text-sm text-neutral-600">
           Already have an account?{" "}
-          <a href="/auth/login" className="font-medium text-blue-600 hover:text-blue-800">
+          <a
+            href="/auth/login"
+            className="font-medium text-blue-600 hover:text-blue-800"
+          >
             Sign in
           </a>
         </p>

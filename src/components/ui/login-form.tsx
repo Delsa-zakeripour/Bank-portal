@@ -4,7 +4,7 @@ import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { loginSchema } from "@/lib/validations/auth";
+import { loginSchema } from "@/lib/validations/auth.schema";
 
 interface LoginPageProps {
   onBack: () => void;

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
-import { registerApiSchema } from "@/lib/validations/auth";
+import { registerApiSchema } from "@/lib/validations/auth.schema";
 
 export async function POST(req: Request) {
   const body = await req.json();
