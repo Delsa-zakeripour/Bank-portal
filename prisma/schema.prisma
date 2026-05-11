@@ -58,3 +58,13 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  name      String
+  amount    Float
+  date      DateTime
+  category  String
+  account   String
+  createdAt DateTime @default(now())
+}

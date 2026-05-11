@@ -1,12 +1,8 @@
-// export default function Dashboard() {
-//   return <div> dashboard</div>;
-// }
-
+"use client";
 import {
   ArrowUpRight,
   ArrowDownRight,
   CreditCard,
-  DollarSign,
   TrendingUp,
   Wallet,
 } from "lucide-react";
@@ -20,85 +16,54 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useTheme } from "@/context/ThemeContext";
-
-const chartData = [
-  { month: "Jan", spending: 2400 },
-  { month: "Feb", spending: 1398 },
-  { month: "Mar", spending: 3800 },
-  { month: "Apr", spending: 3908 },
-  { month: "May", spending: 4800 },
-  { month: "Jun", spending: 3800 },
-];
-
-const accounts = [
-  {
-    id: 1,
-    name: "Checking Account",
-    balance: 12453.82,
-    type: "checking",
-    number: "****4532",
-  },
-  {
-    id: 2,
-    name: "Savings Account",
-    balance: 28750.0,
-    type: "savings",
-    number: "****7821",
-  },
-  {
-    id: 3,
-    name: "Investment Account",
-    balance: 45890.25,
-    type: "investment",
-    number: "****9012",
-  },
-];
-
-const recentTransactions = [
-  {
-    id: 1,
-    name: "Amazon Purchase",
-    amount: -127.45,
-    date: "2026-04-30",
-    category: "Shopping",
-  },
-  {
-    id: 2,
-    name: "Salary Deposit",
-    amount: 4500.0,
-    date: "2026-04-29",
-    category: "Income",
-  },
-  {
-    id: 3,
-    name: "Electric Bill",
-    amount: -89.32,
-    date: "2026-04-28",
-    category: "Utilities",
-  },
-  {
-    id: 4,
-    name: "Coffee Shop",
-    amount: -12.5,
-    date: "2026-04-27",
-    category: "Food",
-  },
-  {
-    id: 5,
-    name: "Gym Membership",
-    amount: -49.99,
-    date: "2026-04-26",
-    category: "Health",
-  },
-];
+import { useEffect, useMemo, useState } from "react";
+import { DashboardApiResponse } from "@/types/dashboard";
 
 export default function Dashboard() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const totalBalance = accounts.reduce(
-    (sum, account) => sum + account.balance,
-    0,
-  );
+  const [data, setData] = useState<DashboardApiResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function load() {
+      try {
+        setError(null);
+        const res = await fetch("/api/dashboard", { method: "GET" });
+        if (!res.ok) {
+          const payload = (await res.json().catch(() => null)) as {
+            error?: string;
+          } | null;
+          throw new Error(payload?.error ?? `Request failed (${res.status})`);
+        }
+        const json = (await res.json()) as DashboardApiResponse;
+        if (isMounted) setData(json);
+      } catch (e) {
+        if (!isMounted) return;
+        setError(e instanceof Error ? e.message : "Failed to load dashboard");
+      }
+    }
+
+    load();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const accounts = data?.accounts ?? [];
+  const chartData = data?.spendingOverview.chartData ?? [];
+  const recentTransactions = data?.recentTransactions ?? [];
+  
+  const totalBalance = useMemo(() => {
+    if (data?.kpis?.totalBalance != null) return data.kpis.totalBalance;
+    return accounts.reduce((sum, account) => sum + account.balance, 0);
+  }, [accounts, data?.kpis?.totalBalance]);
+
+  const incomeThisMonth = data?.kpis.incomeThisMonth ?? 0;
+  const expensesThisMonth = data?.kpis.expensesThisMonth ?? 0;
+  const savingsRate = data?.kpis.savingsRate ?? 0;
 
   return (
     <div className="p-8">
@@ -110,6 +75,18 @@ export default function Dashboard() {
           Welcome back! Here&apos;s your financial overview.
         </p>
       </div>
+
+      {error && (
+        <div
+          className={`mb-6 rounded-lg border p-4 ${
+            isDark
+              ? "border-red-900/50 bg-red-950/30 text-red-200"
+              : "border-red-200 bg-red-50 text-red-700"
+          }`}
+        >
+          {error}
+        </div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -160,7 +137,10 @@ export default function Dashboard() {
           <p
             className={`text-3xl font-semibold ${isDark ? "text-green-400" : "text-green-600"}`}
           >
-            $4,500.00
+            {incomeThisMonth.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
           </p>
         </div>
 
@@ -184,7 +164,10 @@ export default function Dashboard() {
           <p
             className={`text-3xl font-semibold ${isDark ? "text-red-400" : "text-red-600"}`}
           >
-            $279.26
+            {expensesThisMonth.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
           </p>
         </div>
 
@@ -208,7 +191,7 @@ export default function Dashboard() {
           <p
             className={`text-3xl font-semibold ${isDark ? "text-purple-400" : "text-purple-600"}`}
           >
-            93.8%
+            {(savingsRate * 100).toFixed(1)}%
           </p>
         </div>
       </div>

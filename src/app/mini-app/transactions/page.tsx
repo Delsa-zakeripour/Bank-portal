@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Search,
   Filter,
@@ -5,114 +7,17 @@ import {
   ArrowUpRight,
   ArrowDownRight,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
-
-const allTransactions = [
-  {
-    id: 1,
-    name: "Amazon Purchase",
-    amount: -127.45,
-    date: "2026-04-30",
-    category: "Shopping",
-    account: "Checking",
-  },
-  {
-    id: 2,
-    name: "Salary Deposit",
-    amount: 4500.0,
-    date: "2026-04-29",
-    category: "Income",
-    account: "Checking",
-  },
-  {
-    id: 3,
-    name: "Electric Bill",
-    amount: -89.32,
-    date: "2026-04-28",
-    category: "Utilities",
-    account: "Checking",
-  },
-  {
-    id: 4,
-    name: "Coffee Shop",
-    amount: -12.5,
-    date: "2026-04-27",
-    category: "Food",
-    account: "Checking",
-  },
-  {
-    id: 5,
-    name: "Gym Membership",
-    amount: -49.99,
-    date: "2026-04-26",
-    category: "Health",
-    account: "Checking",
-  },
-  {
-    id: 6,
-    name: "Grocery Store",
-    amount: -156.78,
-    date: "2026-04-25",
-    category: "Food",
-    account: "Checking",
-  },
-  {
-    id: 7,
-    name: "Gas Station",
-    amount: -45.2,
-    date: "2026-04-24",
-    category: "Transportation",
-    account: "Checking",
-  },
-  {
-    id: 8,
-    name: "Netflix Subscription",
-    amount: -15.99,
-    date: "2026-04-23",
-    category: "Entertainment",
-    account: "Checking",
-  },
-  {
-    id: 9,
-    name: "Freelance Payment",
-    amount: 850.0,
-    date: "2026-04-22",
-    category: "Income",
-    account: "Checking",
-  },
-  {
-    id: 10,
-    name: "Restaurant",
-    amount: -78.45,
-    date: "2026-04-21",
-    category: "Food",
-    account: "Checking",
-  },
-  {
-    id: 11,
-    name: "Online Course",
-    amount: -99.0,
-    date: "2026-04-20",
-    category: "Education",
-    account: "Checking",
-  },
-  {
-    id: 12,
-    name: "Dividend Payment",
-    amount: 125.5,
-    date: "2026-04-19",
-    category: "Income",
-    account: "Investment",
-  },
-];
+import { TransactionResponse } from "@/types/transactions";
 
 export default function Transactions() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] =
-    useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [data, setData] = useState<TransactionResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const categories = [
     "all",
@@ -126,31 +31,69 @@ export default function Transactions() {
     "Education",
   ];
 
-  const filteredTransactions = allTransactions.filter(
-    (transaction) => {
-      const matchesSearch = transaction.name
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-      const matchesCategory =
-        selectedCategory === "all" ||
-        transaction.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    },
-  );
+  useEffect(() => {
+    let isMounted = true;
+
+    async function load() {
+      try {
+        setError(null);
+        const res = await fetch("/api/transactions", { method: "GET" });
+
+        if (!res.ok) {
+          const payload = (await res.json().catch(() => null)) as {
+            error?: string;
+          } | null;
+          throw new Error(payload?.error ?? `Request failed (${res.status})`);
+        }
+        const json = (await res.json()) as TransactionResponse;
+        if (isMounted) setData(json);
+      } catch (e) {
+        if (!isMounted) return;
+        setError(e instanceof Error ? e.message : "Failed to load dashboard");
+      }
+    }
+
+    load();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // const filteredTransactions =
+  //   data?.allTransactions?.filter(
+  //     (transaction: { name: string; category: string }) => {
+  //       const matchesSearch = transaction.name
+  //         .toLowerCase()
+  //         .includes(searchQuery.toLowerCase());
+
+  //       const matchesCategory =
+  //         selectedCategory === "all" ||
+  //         transaction.category === selectedCategory;
+
+  //       return matchesSearch && matchesCategory;
+  //     },
+  //   ) ?? [];
+
+  const transactions = data?.allTransactions ?? [];
+
+  const filteredTransactions = transactions.filter((transaction) => {
+    const matchesSearch = transaction.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const matchesCategory =
+      selectedCategory === "all" || transaction.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1
-          className={`mb-2 ${isDark ? "text-white" : "text-neutral-900"}`}
-        >
+        <h1 className={`mb-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
           Transactions
         </h1>
-        <p
-          className={
-            isDark ? "text-neutral-400" : "text-neutral-600"
-          }
-        >
+        <p className={isDark ? "text-neutral-400" : "text-neutral-600"}>
           View and manage all your transactions.
         </p>
       </div>
@@ -185,9 +128,7 @@ export default function Transactions() {
             />
             <select
               value={selectedCategory}
-              onChange={(e) =>
-                setSelectedCategory(e.target.value)
-              }
+              onChange={(e) => setSelectedCategory(e.target.value)}
               className={`pl-10 pr-8 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer ${
                 isDark
                   ? "border-neutral-600 bg-neutral-900 text-white"
@@ -196,9 +137,7 @@ export default function Transactions() {
             >
               {categories.map((category) => (
                 <option key={category} value={category}>
-                  {category === "all"
-                    ? "All Categories"
-                    : category}
+                  {category === "all" ? "All Categories" : category}
                 </option>
               ))}
             </select>
@@ -333,10 +272,10 @@ export default function Transactions() {
                       }`}
                     >
                       {transaction.amount > 0 ? "+" : ""}
-                      {transaction.amount.toLocaleString(
-                        "en-US",
-                        { style: "currency", currency: "USD" },
-                      )}
+                      {transaction.amount.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
                     </span>
                   </td>
                 </tr>
@@ -347,11 +286,7 @@ export default function Transactions() {
 
         {filteredTransactions.length === 0 && (
           <div className="p-12 text-center">
-            <p
-              className={
-                isDark ? "text-neutral-400" : "text-neutral-500"
-              }
-            >
+            <p className={isDark ? "text-neutral-400" : "text-neutral-500"}>
               No transactions found matching your criteria.
             </p>
           </div>

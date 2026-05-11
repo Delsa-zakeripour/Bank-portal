@@ -148,7 +148,7 @@ function AppContent() {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 bg-red-500 overflow-y-auto p-4 space-y-1">
+          <nav className="flex-1 overflow-y-auto p-4 space-y-1">
             {navigation.map((item) => {
               const Icon = item.icon;
               const isActive = currentPage === item.id;
