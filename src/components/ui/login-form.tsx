@@ -6,11 +6,7 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { loginSchema } from "@/lib/validations/auth.schema";
 
-interface LoginPageProps {
-  onBack: () => void;
-}
-
-export default function LoginForm({ onBack }: LoginPageProps) {
+export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const rawCallbackUrl = searchParams.get("callbackUrl");
@@ -59,7 +55,8 @@ export default function LoginForm({ onBack }: LoginPageProps) {
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md relative">
         <button
-          onClick={onBack}
+          type="button"
+          onClick={() => router.push("/")}
           className="mb-8 flex items-center gap-2 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
