@@ -16,8 +16,24 @@ function isAdminProtectedRoute(pathname: string) {
 
 function buildLoginRedirect(req: NextRequest, loginPath: string) {
   const loginUrl = new URL(loginPath, req.url);
-  loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
+  loginUrl.searchParams.set(
+    "callbackUrl",
+    `${req.nextUrl.pathname}${req.nextUrl.search}`,
+  );
   return NextResponse.redirect(loginUrl);
+}
+
+function getSafeCallbackUrl(req: NextRequest) {
+  const callbackUrl = req.nextUrl.searchParams.get("callbackUrl");
+  if (
+    callbackUrl &&
+    callbackUrl.startsWith("/") &&
+    !callbackUrl.startsWith("//")
+  ) {
+    return callbackUrl;
+  }
+
+  return null;
 }
 
 export async function middleware(req: NextRequest) {
@@ -37,11 +53,15 @@ export async function middleware(req: NextRequest) {
   }
 
   if (token && pathname === USER_LOGIN_PATH) {
-    return NextResponse.redirect(new URL(USER_DEFAULT_PATH, req.url));
+    return NextResponse.redirect(
+      new URL(getSafeCallbackUrl(req) ?? USER_DEFAULT_PATH, req.url),
+    );
   }
 
   if (token && pathname === ADMIN_LOGIN_PATH) {
-    return NextResponse.redirect(new URL(ADMIN_DEFAULT_PATH, req.url));
+    return NextResponse.redirect(
+      new URL(getSafeCallbackUrl(req) ?? ADMIN_DEFAULT_PATH, req.url),
+    );
   }
 
   return NextResponse.next();

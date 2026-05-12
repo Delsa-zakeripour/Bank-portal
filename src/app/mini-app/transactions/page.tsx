@@ -59,34 +59,20 @@ export default function Transactions() {
     };
   }, []);
 
-  // const filteredTransactions =
-  //   data?.allTransactions?.filter(
-  //     (transaction: { name: string; category: string }) => {
-  //       const matchesSearch = transaction.name
-  //         .toLowerCase()
-  //         .includes(searchQuery.toLowerCase());
+  const filteredTransactions =
+    data?.allTransactions.filter(
+      (transaction: { name: string; category: string }) => {
+        const matchesSearch = transaction.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
 
-  //       const matchesCategory =
-  //         selectedCategory === "all" ||
-  //         transaction.category === selectedCategory;
+        const matchesCategory =
+          selectedCategory === "all" ||
+          transaction.category === selectedCategory;
 
-  //       return matchesSearch && matchesCategory;
-  //     },
-  //   ) ?? [];
-
-  const transactions = data?.allTransactions ?? [];
-
-  const filteredTransactions = transactions.filter((transaction) => {
-    const matchesSearch = transaction.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-
-    const matchesCategory =
-      selectedCategory === "all" || transaction.category === selectedCategory;
-
-    return matchesSearch && matchesCategory;
-  });
-
+        return matchesSearch && matchesCategory;
+      },
+    ) ?? [];
   return (
     <div className="p-8">
       <div className="mb-8">

@@ -3,7 +3,7 @@
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { loginSchema } from "@/lib/validations/auth.schema";
 
 interface LoginPageProps {
@@ -12,6 +12,12 @@ interface LoginPageProps {
 
 export default function LoginForm({ onBack }: LoginPageProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const rawCallbackUrl = searchParams.get("callbackUrl");
+  const callbackUrl =
+    rawCallbackUrl?.startsWith("/") && !rawCallbackUrl.startsWith("//")
+      ? rawCallbackUrl
+      : "/mini-app/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -34,6 +40,7 @@ export default function LoginForm({ onBack }: LoginPageProps) {
     const result = await signIn("credentials", {
       email: validationResult.data.email,
       password: validationResult.data.password,
+      callbackUrl,
       redirect: false,
     });
 
@@ -44,7 +51,7 @@ export default function LoginForm({ onBack }: LoginPageProps) {
       return;
     }
 
-    router.push("/mini-app");
+    router.push(result?.url ?? callbackUrl);
     router.refresh();
   };
 
