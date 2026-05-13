@@ -1,0 +1,167 @@
+{
+  "Common": {
+    "brandName": "BankPro",
+    "digitalBanking": "بانکداری دیجیتال",
+    "loading": "در حال بارگذاری...",
+    "saving": "در حال ذخیره...",
+    "submitting": "در حال ارسال...",
+    "cancel": "لغو",
+    "confirm": "تایید",
+    "continue": "ادامه",
+    "back": "بازگشت",
+    "backToHome": "بازگشت به خانه",
+    "retry": "تلاش دوباره",
+    "search": "جستجو",
+    "filter": "فیلتر",
+    "settings": "تنظیمات",
+    "logout": "خروج",
+    "lightMode": "حالت روشن",
+    "darkMode": "حالت تاریک",
+    "errorTitle": "مشکلی پیش آمد",
+    "unauthorized": "برای ادامه باید وارد حساب کاربری شوید."
+  },
+  "Auth": {
+    "login": {
+      "title": "ورود کاربر",
+      "subtitle": "وارد حساب بانک پرو خودت شو",
+      "email": "آدرس ایمیل",
+      "emailPlaceholder": "you@example.com",
+      "password": "رمز عبور",
+      "passwordPlaceholder": "رمز عبورت را وارد کن",
+      "submit": "ورود",
+      "submitting": "در حال ورود...",
+      "invalidCredentials": "ایمیل یا رمز عبور اشتباه است.",
+      "invalidInput": "اطلاعات وارد شده معتبر نیست.",
+      "noAccount": "حساب کاربری نداری؟",
+      "signUp": "ثبت‌نام رایگان"
+    },
+    "register": {
+      "title": "ایجاد حساب کاربری",
+      "subtitle": "به BankPro بپیوند و مدیریت پولت را شروع کن.",
+      "name": "نام کامل",
+      "namePlaceholder": "نام کاملت را وارد کن",
+      "email": "ایمیل",
+      "emailPlaceholder": "you@example.com",
+      "password": "رمز عبور",
+      "passwordPlaceholder": "یک رمز عبور بساز",
+      "confirmPassword": "تکرار رمز عبور",
+      "confirmPasswordPlaceholder": "رمز عبور را دوباره وارد کن",
+      "submit": "ایجاد حساب",
+      "submitting": "در حال ایجاد حساب...",
+      "failed": "ایجاد حساب کاربری ناموفق بود.",
+      "hasAccount": "از قبل حساب داری؟",
+      "signIn": "وارد شو"
+    },
+    "logout": {
+      "title": "در حال خروج"
+    }
+  },
+  "LoginPage": {
+    "title": "خوش برگشتی",
+    "subtitle": "وارد حساب BankPro خودت شو",
+    "email": "آدرس ایمیل",
+    "password": "رمز عبور",
+    "submit": "ورود"
+  },
+  "Landing": {
+    "nav": {
+      "features": "امکانات",
+      "security": "امنیت",
+      "pricing": "تعرفه‌ها",
+      "signIn": "ورود"
+    },
+    "hero": {
+      "title": "بانکداری مدرن برای مدیریت پول روزمره",
+      "subtitle": "موجودی حساب‌ها را ببین، تراکنش‌ها را بررسی کن و با تجربه‌ای امن پول جابه‌جا کن.",
+      "primaryAction": "ورود به داشبورد",
+      "secondaryAction": "بیشتر بدانید",
+      "totalBalance": "موجودی کل",
+      "savingsAccount": "حساب پس‌انداز"
+    },
+    "features": {
+      "title": "هر چیزی که برای مدیریت پول نیاز داری",
+      "instantTransfers": "انتقال فوری",
+      "instantTransfersDescription": "پول را بدون زمان انتظار بین حساب‌ها ارسال و دریافت کن.",
+      "multipleCards": "کارت‌های متعدد",
+      "security": "امنیت در سطح بانکی"
+    },
+    "cta": {
+      "title": "آماده‌ای هوشمندتر بانکداری کنی؟",
+      "subtitle": "به میلیون‌ها کاربری بپیوند که برای نیازهای مالی‌شان به BankPro اعتماد دارند.",
+      "action": "شروع کن"
+    },
+    "footer": {
+      "copyright": "© ۲۰۲۶ BankPro. تمام حقوق محفوظ است."
+    }
+  },
+  "MiniAppShell": {
+    "navigation": {
+      "dashboard": "داشبورد",
+      "transactions": "تراکنش‌ها",
+      "transfer": "انتقال وجه",
+      "cards": "کارت‌ها"
+    }
+  },
+  "Dashboard": {
+    "title": "داشبورد",
+    "subtitle": "خوش برگشتی! این خلاصه‌ی وضعیت مالی توست.",
+    "totalBalance": "موجودی کل",
+    "incomeThisMonth": "درآمد این ماه",
+    "expensesThisMonth": "هزینه‌های این ماه",
+    "savingsRate": "نرخ پس‌انداز",
+    "myAccounts": "حساب‌های من",
+    "spendingOverview": "نمای کلی هزینه‌ها",
+    "recentTransactions": "تراکنش‌های اخیر",
+    "emptyAccounts": "حسابی پیدا نشد.",
+    "emptyTransactions": "تراکنش اخیری پیدا نشد.",
+    "loadError": "بارگذاری داشبورد ناموفق بود"
+  },
+  "Transactions": {
+    "title": "تراکنش‌ها",
+    "subtitle": "فعالیت حساب‌هایت را بررسی و فیلتر کن.",
+    "searchPlaceholder": "جستجوی تراکنش‌ها...",
+    "allCategories": "همه دسته‌بندی‌ها",
+    "income": "درآمد",
+    "expense": "هزینه",
+    "transfer": "انتقال",
+    "date": "تاریخ",
+    "description": "توضیحات",
+    "category": "دسته‌بندی",
+    "account": "حساب",
+    "amount": "مبلغ",
+    "status": "وضعیت",
+    "empty": "هیچ تراکنشی با فیلترهای انتخاب‌شده پیدا نشد."
+  },
+  "Transfer": {
+    "title": "انتقال وجه",
+    "subtitle": "موجودی را بین حساب‌های خودت جابه‌جا کن.",
+    "fromAccount": "از حساب",
+    "toAccount": "به حساب",
+    "amount": "مبلغ",
+    "amountPlaceholder": "0.00",
+    "description": "توضیحات",
+    "descriptionPlaceholder": "این انتقال بابت چیست؟",
+    "submit": "انتقال وجه",
+    "successTitle": "انتقال با موفقیت انجام شد!",
+    "insufficientFunds": "موجودی حساب انتخاب‌شده کافی نیست",
+    "summary": "خلاصه انتقال",
+    "tipsTitle": "نکته‌های انتقال سریع",
+    "instantTip": "انتقال‌ها فوری پردازش می‌شوند",
+    "recurringTip": "انتقال‌های دوره‌ای را از بخش تنظیمات فعال کن"
+  },
+  "Cards": {
+    "title": "کارت‌های من",
+    "subtitle": "کارت‌های نقدی و اعتباری خودت را مدیریت کن.",
+    "showNumber": "نمایش شماره کارت",
+    "hideNumber": "پنهان کردن شماره کارت",
+    "expires": "انقضا",
+    "cardHolder": "دارنده کارت",
+    "availableBalance": "موجودی قابل استفاده"
+  },
+  "Admin": {
+    "dashboard": "داشبورد ادمین",
+    "customers": "مشتریان",
+    "transactions": "تراکنش‌ها",
+    "login": "ورود ادمین"
+  }
+}

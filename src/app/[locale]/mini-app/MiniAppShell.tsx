@@ -17,6 +17,7 @@ import Link from "next/link"; // Make sure to import Link
 import { useTheme } from "@/context/ThemeContext";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 type Page = "dashboard" | "transactions" | "transfer" | "cards";
 
@@ -25,6 +26,8 @@ export default function MiniAppShell({
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations("MiniAppShell.navigation");
+  const commonT = useTranslations("Common");
   const { theme, toggleTheme } = useTheme();
 
   const pathname = usePathname();
@@ -32,10 +35,10 @@ export default function MiniAppShell({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navigation = [
-    { id: "dashboard" as Page, name: "Dashboard", icon: LayoutDashboard },
-    { id: "transactions" as Page, name: "Transactions", icon: Receipt },
-    { id: "transfer" as Page, name: "Transfer", icon: ArrowRightLeft },
-    { id: "cards" as Page, name: "Cards", icon: CreditCard },
+    { id: "dashboard" as Page, name: t("dashboard"), icon: LayoutDashboard },
+    { id: "transactions" as Page, name: t("transactions"), icon: Receipt },
+    { id: "transfer" as Page, name: t("transfer"), icon: ArrowRightLeft },
+    { id: "cards" as Page, name: t("cards"), icon: CreditCard },
   ];
 
   const handleLogout = async () => {
@@ -92,12 +95,12 @@ export default function MiniAppShell({
                 <h2
                   className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}
                 >
-                  BankPro
+                  {commonT("brandName")}
                 </h2>
                 <p
                   className={`text-xs ${isDark ? "text-neutral-400" : "text-neutral-500"}`}
                 >
-                  Digital Banking
+                  {commonT("digitalBanking")}
                 </p>
               </div>
             </div>
@@ -157,7 +160,7 @@ export default function MiniAppShell({
                 <Moon className="w-5 h-5" />
               )}
               <span className="font-medium">
-                {isDark ? "Light Mode" : "Dark Mode"}
+                {isDark ? commonT("lightMode") : commonT("darkMode")}
               </span>
             </button>
             <button
@@ -168,7 +171,7 @@ export default function MiniAppShell({
               }`}
             >
               <Settings className="w-5 h-5" />
-              <span className="font-medium">Settings</span>
+              <span className="font-medium">{commonT("settings")}</span>
             </button>
             <button
               onClick={handleLogout}
@@ -179,7 +182,7 @@ export default function MiniAppShell({
               }`}
             >
               <LogOut className="w-5 h-5" />
-              <span className="font-medium">Logout</span>
+              <span className="font-medium">{commonT("logout")}</span>
             </button>
           </div>
         </div>
@@ -200,7 +203,7 @@ export default function MiniAppShell({
           <h2
             className={`font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}
           >
-            BankPro
+            {commonT("brandName")}
           </h2>
           <button
             onClick={toggleTheme}

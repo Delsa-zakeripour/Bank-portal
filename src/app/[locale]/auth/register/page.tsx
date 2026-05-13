@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { registerSchema } from "@/lib/validations/auth.schema";
+import { useLocale } from "next-intl";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -14,6 +15,8 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+
+  const locale = useLocale()
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -64,7 +67,7 @@ export default function RegisterPage() {
       return;
     }
 
-    router.push("/mini-app/dashboard");
+    router.push(`${locale}/mini-app/dashboard`);
     router.refresh();
   };
 

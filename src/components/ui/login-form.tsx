@@ -3,10 +3,14 @@
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { loginSchema } from "@/lib/validations/auth.schema";
+import { useTranslations } from "next-intl";
 
 export default function LoginForm() {
+  const t = useTranslations("Auth.login");
+  const commonT = useTranslations("Common");
   const router = useRouter();
   const searchParams = useSearchParams();
   const rawCallbackUrl = searchParams.get("callbackUrl");
@@ -27,7 +31,7 @@ export default function LoginForm() {
     const validationResult = loginSchema.safeParse({ email, password });
 
     if (!validationResult.success) {
-      setError(validationResult.error.issues[0]?.message ?? "Invalid input.");
+      setError(t("invalidInput"));
       return;
     }
 
@@ -43,7 +47,7 @@ export default function LoginForm() {
     setIsSubmitting(false);
 
     if (result?.error) {
-      setError("Invalid email or password.");
+      setError(t("invalidCredentials"));
       return;
     }
 
@@ -60,7 +64,7 @@ export default function LoginForm() {
           className="mb-8 flex items-center gap-2 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span>Back to home</span>
+          <span>{commonT("backToHome")}</span>
         </button>
 
         <div className="bg-white border-neutral-200 rounded-2xl border shadow-2xl p-8">
@@ -81,9 +85,9 @@ export default function LoginForm() {
               </svg>
             </div>
             <h1 className="text-3xl font-bold mb-2 text-neutral-900">
-              Welcome Back
+              {t("title")}
             </h1>
-            <p className="text-neutral-600">Sign in to your BankPro account</p>
+            <p className="text-neutral-600">{t("subtitle")}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -92,14 +96,14 @@ export default function LoginForm() {
                 htmlFor="email"
                 className="block text-sm font-medium mb-2 text-neutral-700"
               >
-                Email Address
+                {t("email")}
               </label>
               <input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                placeholder={t("emailPlaceholder")}
                 className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors border-neutral-300 text-neutral-900 placeholder-neutral-400"
                 required
               />
@@ -110,7 +114,7 @@ export default function LoginForm() {
                 htmlFor="password"
                 className="block text-sm font-medium mb-2 text-neutral-700"
               >
-                Password
+                {t("password")}
               </label>
               <div className="relative">
                 <input
@@ -118,7 +122,7 @@ export default function LoginForm() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder={t("passwordPlaceholder")}
                   className="w-full pr-12 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors border-neutral-300 text-neutral-900 placeholder-neutral-400"
                   required
                 />
@@ -143,17 +147,17 @@ export default function LoginForm() {
               disabled={isSubmitting}
               className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-lg shadow-blue-600/20"
             >
-              {isSubmitting ? "Signing in..." : "Sign In"}
+              {isSubmitting ? t("submitting") : t("submit")}
             </button>
           </form>
           <p className="mt-8 text-center text-neutral-600">
-            Don&apos;t have an account?{" "}
-            <a
+            {t("noAccount")}{" "}
+            <Link
               href="/auth/register"
               className="text-blue-600 hover:text-blue-700 font-medium"
             >
-              Sign up for free
-            </a>
+              {t("signUp")}
+            </Link>
           </p>
         </div>
       </div>

@@ -18,12 +18,14 @@ import {
 import { useTheme } from "@/context/ThemeContext";
 import { useEffect, useMemo, useState } from "react";
 import { DashboardApiResponse } from "@/types/dashboard";
+import { useTranslations } from "next-intl";
 
 export default function Dashboard() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [data, setData] = useState<DashboardApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const t = useTranslations("Dashboard");
 
   useEffect(() => {
     let isMounted = true;
@@ -55,7 +57,7 @@ export default function Dashboard() {
   const accounts = data?.accounts ?? [];
   const chartData = data?.spendingOverview.chartData ?? [];
   const recentTransactions = data?.recentTransactions ?? [];
-  
+
   const totalBalance = useMemo(() => {
     if (data?.kpis?.totalBalance != null) return data.kpis.totalBalance;
     return accounts.reduce((sum, account) => sum + account.balance, 0);
@@ -69,7 +71,7 @@ export default function Dashboard() {
     <div className="p-8">
       <div className="mb-8">
         <h1 className={`mb-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
-          Dashboard
+          {t("title")}
         </h1>
         <p className={isDark ? "text-neutral-400" : "text-neutral-600"}>
           Welcome back! Here&apos;s your financial overview.

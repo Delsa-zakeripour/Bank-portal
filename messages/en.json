@@ -1,0 +1,167 @@
+{
+  "Common": {
+    "brandName": "BankPro",
+    "digitalBanking": "Digital Banking",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "submitting": "Submitting...",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "continue": "Continue",
+    "back": "Back",
+    "backToHome": "Back to home",
+    "retry": "Retry",
+    "search": "Search",
+    "filter": "Filter",
+    "settings": "Settings",
+    "logout": "Logout",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "errorTitle": "Something went wrong",
+    "unauthorized": "You need to sign in to continue."
+  },
+  "Auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your BankPro account",
+      "email": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "invalidCredentials": "Invalid email or password.",
+      "invalidInput": "Invalid input.",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up for free"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Join BankPro and start managing your money.",
+      "name": "Full Name",
+      "namePlaceholder": "Enter your full name",
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Create a password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Repeat your password",
+      "submit": "Create account",
+      "submitting": "Creating account...",
+      "failed": "Failed to create account.",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "logout": {
+      "title": "Signing out"
+    }
+  },
+  "LoginPage": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to your BankPro account",
+    "email": "Email Address",
+    "password": "Password",
+    "submit": "Sign In"
+  },
+  "Landing": {
+    "nav": {
+      "features": "Features",
+      "security": "Security",
+      "pricing": "Pricing",
+      "signIn": "Sign In"
+    },
+    "hero": {
+      "title": "Modern banking for everyday money",
+      "subtitle": "Track balances, review transactions, and move money with a secure digital banking experience.",
+      "primaryAction": "Open dashboard",
+      "secondaryAction": "Learn more",
+      "totalBalance": "Total Balance",
+      "savingsAccount": "Savings Account"
+    },
+    "features": {
+      "title": "Everything you need to manage money",
+      "instantTransfers": "Instant Transfers",
+      "instantTransfersDescription": "Send and receive money instantly between accounts with zero processing time.",
+      "multipleCards": "Multiple Cards",
+      "security": "Bank-level Security"
+    },
+    "cta": {
+      "title": "Ready to bank smarter?",
+      "subtitle": "Join millions of users who trust BankPro for their financial needs.",
+      "action": "Get started"
+    },
+    "footer": {
+      "copyright": "© 2026 BankPro. All rights reserved."
+    }
+  },
+  "MiniAppShell": {
+    "navigation": {
+      "dashboard": "Dashboard",
+      "transactions": "Transactions",
+      "transfer": "Transfer",
+      "cards": "Cards"
+    }
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Welcome back! Here's your financial overview.",
+    "totalBalance": "Total Balance",
+    "incomeThisMonth": "Income (This Month)",
+    "expensesThisMonth": "Expenses (This Month)",
+    "savingsRate": "Savings Rate",
+    "myAccounts": "My Accounts",
+    "spendingOverview": "Spending Overview",
+    "recentTransactions": "Recent Transactions",
+    "emptyAccounts": "No accounts found.",
+    "emptyTransactions": "No recent transactions found.",
+    "loadError": "Failed to load dashboard"
+  },
+  "Transactions": {
+    "title": "Transactions",
+    "subtitle": "Review and filter your account activity.",
+    "searchPlaceholder": "Search transactions...",
+    "allCategories": "All Categories",
+    "income": "Income",
+    "expense": "Expense",
+    "transfer": "Transfer",
+    "date": "Date",
+    "description": "Description",
+    "category": "Category",
+    "account": "Account",
+    "amount": "Amount",
+    "status": "Status",
+    "empty": "No transactions match your filters."
+  },
+  "Transfer": {
+    "title": "Transfer Money",
+    "subtitle": "Transfer funds between your accounts.",
+    "fromAccount": "From Account",
+    "toAccount": "To Account",
+    "amount": "Amount",
+    "amountPlaceholder": "0.00",
+    "description": "Description",
+    "descriptionPlaceholder": "What's this transfer for?",
+    "submit": "Transfer Funds",
+    "successTitle": "Transfer Successful!",
+    "insufficientFunds": "Insufficient funds in selected account",
+    "summary": "Transfer Summary",
+    "tipsTitle": "Quick Transfer Tips",
+    "instantTip": "Transfers are processed instantly",
+    "recurringTip": "Set up recurring transfers in Settings"
+  },
+  "Cards": {
+    "title": "My Cards",
+    "subtitle": "Manage your debit and credit cards.",
+    "showNumber": "Show card number",
+    "hideNumber": "Hide card number",
+    "expires": "Expires",
+    "cardHolder": "Card Holder",
+    "availableBalance": "Available Balance"
+  },
+  "Admin": {
+    "dashboard": "Admin Dashboard",
+    "customers": "Customers",
+    "transactions": "Transactions",
+    "login": "Admin Login"
+  }
+}

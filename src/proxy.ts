@@ -21,7 +21,6 @@ function getPathWithoutLocale(pathname: string) {
       pathname: pathWithoutLocale === "/" ? "/" : pathWithoutLocale,
     };
   }
-
   return {
     locale: routing.defaultLocale,
     pathname,
