@@ -74,7 +74,7 @@ export default function Dashboard() {
           {t("title")}
         </h1>
         <p className={isDark ? "text-neutral-400" : "text-neutral-600"}>
-          Welcome back! Here&apos;s your financial overview.
+          {t("subtitle")}
         </p>
       </div>
 
@@ -107,7 +107,7 @@ export default function Dashboard() {
           <p
             className={`${isDark ? "text-neutral-400" : "text-neutral-600"} text-sm mb-1`}
           >
-            Total Balance
+            {t("totalBalance")}
           </p>
           <p
             className={`text-3xl font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}
@@ -134,7 +134,7 @@ export default function Dashboard() {
           <p
             className={`${isDark ? "text-neutral-400" : "text-neutral-600"} text-sm mb-1`}
           >
-            Income (This Month)
+            {t("incomeThisMonth")}
           </p>
           <p
             className={`text-3xl font-semibold ${isDark ? "text-green-400" : "text-green-600"}`}
@@ -161,7 +161,7 @@ export default function Dashboard() {
           <p
             className={`${isDark ? "text-neutral-400" : "text-neutral-600"} text-sm mb-1`}
           >
-            Expenses (This Month)
+            {t("expensesThisMonth")}
           </p>
           <p
             className={`text-3xl font-semibold ${isDark ? "text-red-400" : "text-red-600"}`}
@@ -188,7 +188,7 @@ export default function Dashboard() {
           <p
             className={`${isDark ? "text-neutral-400" : "text-neutral-600"} text-sm mb-1`}
           >
-            Savings Rate
+            {t("savingsRate")}
           </p>
           <p
             className={`text-3xl font-semibold ${isDark ? "text-purple-400" : "text-purple-600"}`}
@@ -205,7 +205,7 @@ export default function Dashboard() {
           className={`lg:col-span-1 ${isDark ? "bg-neutral-800 border-neutral-700" : "bg-white border-neutral-200"} rounded-xl p-6 border shadow-sm`}
         >
           <h2 className={`mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
-            My Accounts
+            {t("myAccounts")}
           </h2>
           <div className="space-y-4">
             {accounts.map((account) => (
@@ -258,7 +258,7 @@ export default function Dashboard() {
           className={`lg:col-span-2 ${isDark ? "bg-neutral-800 border-neutral-700" : "bg-white border-neutral-200"} rounded-xl p-6 border shadow-sm`}
         >
           <h2 className={`mb-6 ${isDark ? "text-white" : "text-neutral-900"}`}>
-            Spending Overview
+            {t("spendingOverview")}
           </h2>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={chartData}>
@@ -309,12 +309,12 @@ export default function Dashboard() {
       >
         <div className="flex items-center justify-between mb-6">
           <h2 className={isDark ? "text-white" : "text-neutral-900"}>
-            Recent Transactions
+            {t("recentTransactions")}{" "}
           </h2>
           <button
             className={`text-sm font-medium ${isDark ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-700"}`}
           >
-            View All
+            {t("viewAll")}
           </button>
         </div>
         <div className="space-y-4">

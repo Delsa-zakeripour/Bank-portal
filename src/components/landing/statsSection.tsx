@@ -1,9 +1,12 @@
+import { useTranslations } from "next-intl";
+
 export function StatsSection() {
+  const t = useTranslations("Landing.stats");
   const stats = [
-    { value: "2M+", label: "Active Users" },
-    { value: "$50B+", label: "Transactions" },
-    { value: "99.9%", label: "Uptime" },
-    { value: "150+", label: "Countries" },
+    { value: "2M+", label: t("active") },
+    { value: "$50B+", label: t("transactions") },
+    { value: "99.9%", label: t("uptime") },
+    { value: "150+", label: t("countries") },
   ];
   return (
     <section className="border-y border-neutral-800 bg-neutral-900/50">

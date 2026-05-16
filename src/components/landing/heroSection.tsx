@@ -1,6 +1,11 @@
-import { ArrowRight, CreditCard, TrendingUp } from "lucide-react";
+import { ArrowLeft, ArrowRight, CreditCard, TrendingUp } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export function HeroSectiobs() {
+  const t = useTranslations("Landing.hero");
+  const locale = useLocale();
+  const router = useRouter();
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-blue-600/10 via-transparent to-transparent" />
@@ -9,28 +14,31 @@ export function HeroSectiobs() {
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600/20 border border-blue-600/30 rounded-full text-blue-400 text-sm mb-6">
               <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
-              Now available worldwide
+              {t("available")}
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              Banking Made
+              {t("bankingMade")}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
-                Simple & Secure
+                {t("simpleSecure")}
               </span>
             </h1>
             <p className="text-xl text-neutral-400 mb-8 leading-relaxed">
-              Experience the future of digital banking. Manage your finances,
-              transfer money, and track spending all in one powerful platform.
+              {t("description")}{" "}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button
-                //   onClick={onLogin}
+                onClick={() => router.push("/auth/login")}
                 className="px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors font-medium flex items-center justify-center gap-2 text-lg"
               >
-                Get Started
-                <ArrowRight className="w-5 h-5" />
+                {t("getStarted")}
+                {locale === "en" ? (
+                  <ArrowRight className="w-5 h-5" />
+                ) : (
+                  <ArrowLeft className="w-5 h-5" />
+                )}
               </button>
               <button className="px-8 py-4 border border-neutral-700 hover:border-neutral-600 rounded-lg transition-colors font-medium text-lg">
-                Learn More
+                {t("secondaryAction")}
               </button>
             </div>
           </div>
@@ -41,7 +49,9 @@ export function HeroSectiobs() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-neutral-400">Total Balance</p>
+                    <p className="text-sm text-neutral-400">
+                      {t("totalBalance")}
+                    </p>
                     <p className="text-3xl font-bold mt-1">$87,094.07</p>
                   </div>
                   <div className="p-3 bg-green-600/20 rounded-lg">
@@ -58,7 +68,9 @@ export function HeroSectiobs() {
                         <CreditCard className="w-5 h-5 text-blue-400" />
                       </div>
                       <div>
-                        <p className="font-medium text-sm">Checking Account</p>
+                        <p className="font-medium text-sm">
+                          {t("checkingAccount")}
+                        </p>
                         <p className="text-xs text-neutral-400">****4532</p>
                       </div>
                     </div>
@@ -71,7 +83,9 @@ export function HeroSectiobs() {
                         <CreditCard className="w-5 h-5 text-purple-400" />
                       </div>
                       <div>
-                        <p className="font-medium text-sm">Savings Account</p>
+                        <p className="font-medium text-sm">
+                          {t("savingsAccount")}
+                        </p>
                         <p className="text-xs text-neutral-400">****7821</p>
                       </div>
                     </div>

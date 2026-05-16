@@ -68,7 +68,9 @@
       "features": "Features",
       "security": "Security",
       "pricing": "Pricing",
-      "signIn": "Sign In"
+      "signIn": "Sign In",
+      "about": "About",
+      "contact": "Contact"
     },
     "hero": {
       "title": "Modern banking for everyday money",
@@ -76,14 +78,36 @@
       "primaryAction": "Open dashboard",
       "secondaryAction": "Learn more",
       "totalBalance": "Total Balance",
-      "savingsAccount": "Savings Account"
+      "savingsAccount": "Savings Account",
+      "checkingAccount": "Checking Account",
+      "available": "Now available worldwide",
+      "bankingMade": "Banking Made",
+      "simpleSecure": "Simple & Secure",
+      "description": "Experience the future of digital banking. Manage your finances, transfer money, and track spending all in one powerful platform.",
+      "getStarted": " Get Started"
+    },
+    "stats": {
+      "active": "Active User",
+      "transactions": "Transactions",
+      "uptime": "Uptime",
+      "countries": "Countries"
     },
     "features": {
       "title": "Everything you need to manage money",
+      "subtitle": "Powerful features to manage your finances with confidence",
       "instantTransfers": "Instant Transfers",
       "instantTransfersDescription": "Send and receive money instantly between accounts with zero processing time.",
       "multipleCards": "Multiple Cards",
-      "security": "Bank-level Security"
+      "multipleDes": "Manage all your credit and debit cards in one convenient place.",
+      "security": "Bank-level Security",
+      "support": "24/7 Support",
+      "supportDes": "Our dedicated support team is available round the clock to assist you.",
+      "gradeSecurity": "Bank-Grade Security",
+      "gradeSecurityDes": "Your money is protected with 256-bit encryption and multi-factor authentication",
+      "smartAnalys": "Smart Analytics",
+      "smartAnalysDes": "Track your spending patterns and get insights to help you save more.",
+      "privacy": "Privacy First",
+      "privacyDes": "We never sell your data. Your financial information stays private."
     },
     "cta": {
       "title": "Ready to bank smarter?",
@@ -112,6 +136,7 @@
     "myAccounts": "My Accounts",
     "spendingOverview": "Spending Overview",
     "recentTransactions": "Recent Transactions",
+    "viewAll": "View All",
     "emptyAccounts": "No accounts found.",
     "emptyTransactions": "No recent transactions found.",
     "loadError": "Failed to load dashboard"
@@ -120,11 +145,20 @@
     "title": "Transactions",
     "subtitle": "Review and filter your account activity.",
     "searchPlaceholder": "Search transactions...",
+    "export": "Export",
     "allCategories": "All Categories",
-    "income": "Income",
     "expense": "Expense",
     "transfer": "Transfer",
     "date": "Date",
+    "all": "All",
+    "income": "Income",
+    "shopping": "Shopping",
+    "food": "Food",
+    "utilities": "Utilities",
+    "health": "Health",
+    "transportation": "Transportation",
+    "entertainment": "Entertainment",
+    "education": "Education",
     "description": "Description",
     "category": "Category",
     "account": "Account",

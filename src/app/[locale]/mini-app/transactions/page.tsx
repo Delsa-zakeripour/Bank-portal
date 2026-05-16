@@ -10,27 +10,30 @@ import {
 import { useEffect, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { TransactionResponse } from "@/types/transactions";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function Transactions() {
+  const t = useTranslations("Transactions");
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const locale = useLocale();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [data, setData] = useState<TransactionResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const categories = [
-    "all",
-    "Income",
-    "Shopping",
-    "Food",
-    "Utilities",
-    "Health",
-    "Transportation",
-    "Entertainment",
-    "Education",
+    { value: "all", label: t("allCategories") },
+    { value: "Income", label: t("income") },
+    { value: "Shopping", label: t("shopping") },
+    { value: "Food", label: t("food") },
+    { value: "Utilities", label: t("utilities") },
+    { value: "Health", label: t("health") },
+    { value: "Transportation", label: t("transportation") },
+    { value: "Entertainment", label: t("entertainment") },
+    { value: "Education", label: t("education") },
   ];
-
+  
   useEffect(() => {
     let isMounted = true;
 
@@ -77,10 +80,10 @@ export default function Transactions() {
     <div className="p-8">
       <div className="mb-8">
         <h1 className={`mb-2 ${isDark ? "text-white" : "text-neutral-900"}`}>
-          Transactions
+          {t("title")}
         </h1>
         <p className={isDark ? "text-neutral-400" : "text-neutral-600"}>
-          View and manage all your transactions.
+          {t("subtitle")}
         </p>
       </div>
 
@@ -96,7 +99,7 @@ export default function Transactions() {
             />
             <input
               type="text"
-              placeholder="Search transactions..."
+              placeholder={t("searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={`w-full pl-10 pr-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
@@ -122,8 +125,8 @@ export default function Transactions() {
               }`}
             >
               {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category === "all" ? "All Categories" : category}
+                <option key={category.value} value={category.value}>
+                  {category.label}
                 </option>
               ))}
             </select>
@@ -132,7 +135,7 @@ export default function Transactions() {
           {/* Export Button */}
           <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
             <Download className="w-5 h-5" />
-            Export
+            {t("export")}
           </button>
         </div>
       </div>
@@ -152,29 +155,29 @@ export default function Transactions() {
             >
               <tr>
                 <th
-                  className={`px-6 py-4 text-left text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"}`}
+                  className={`px-6 py-4 text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"} ${locale === "en" ? "text-left" : "text-right"}`}
                 >
-                  Transaction
+                  {t("title")}
                 </th>
                 <th
-                  className={`px-6 py-4 text-left text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"}`}
+                  className={`px-6 py-4 text-left text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"} ${locale === "en" ? "text-left" : "text-right"}`}
                 >
-                  Category
+                  {t("category")}
                 </th>
                 <th
-                  className={`px-6 py-4 text-left text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"}`}
+                  className={`px-6 py-4 text-left text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"} ${locale === "en" ? "text-left" : "text-right"}`}
                 >
-                  Account
+                  {t("account")}
                 </th>
                 <th
-                  className={`px-6 py-4 text-left text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"}`}
+                  className={`px-6 py-4 text-left text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"} ${locale === "en" ? "text-left" : "text-right"}`}
                 >
-                  Date
+                  {t("date")}
                 </th>
                 <th
-                  className={`px-6 py-4 text-right text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"}`}
+                  className={`px-6 py-4 text-right text-sm font-medium ${isDark ? "text-neutral-300" : "text-neutral-700"} ${locale === "en" ? "text-left" : "text-right"}`}
                 >
-                  Amount
+                  {t("amount")}
                 </th>
               </tr>
             </thead>
@@ -273,7 +276,7 @@ export default function Transactions() {
         {filteredTransactions.length === 0 && (
           <div className="p-12 text-center">
             <p className={isDark ? "text-neutral-400" : "text-neutral-500"}>
-              No transactions found matching your criteria.
+              {t("empty")}
             </p>
           </div>
         )}

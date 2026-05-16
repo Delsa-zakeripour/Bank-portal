@@ -4,9 +4,11 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { registerSchema } from "@/lib/validations/auth.schema";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export default function RegisterPage() {
+  const t = useTranslations("Auth.register");
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,8 +17,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-
-  const locale = useLocale()
+  const locale = useLocale();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -74,12 +75,10 @@ export default function RegisterPage() {
   return (
     <main className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-2xl border border-neutral-200 bg-white p-8 shadow-2xl">
-        <h1 className="mb-2 text-3xl font-bold text-neutral-900">
-          Create account
+        <h1 className="b-2 text-3xl font-bold text-neutral-900">
+          {t("title")}
         </h1>
-        <p className="mb-8 text-neutral-600">
-          Join BankPro and start managing your money.
-        </p>
+        <p className="mb-8 text-neutral-600">{t("subtitle")}</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -87,7 +86,7 @@ export default function RegisterPage() {
               htmlFor="name"
               className="mb-2 block text-sm font-medium text-neutral-700"
             >
-              Full name
+              {t("name")}
             </label>
             <input
               id="name"
@@ -95,7 +94,7 @@ export default function RegisterPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 outline-none transition-colors focus:ring-2 focus:ring-blue-500"
-              placeholder="John Doe"
+              placeholder={t("namePlaceholder")}
             />
           </div>
 
@@ -104,7 +103,7 @@ export default function RegisterPage() {
               htmlFor="email"
               className="mb-2 block text-sm font-medium text-neutral-700"
             >
-              Email
+              {t("email")}
             </label>
             <input
               id="email"
@@ -112,7 +111,7 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 outline-none transition-colors focus:ring-2 focus:ring-blue-500"
-              placeholder="you@example.com"
+              placeholder={t("emailPlaceholder")}
               required
             />
           </div>
@@ -122,7 +121,7 @@ export default function RegisterPage() {
               htmlFor="password"
               className="mb-2 block text-sm font-medium text-neutral-700"
             >
-              Password
+              {t("password")}
             </label>
             <input
               id="password"
@@ -130,7 +129,7 @@ export default function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 outline-none transition-colors focus:ring-2 focus:ring-blue-500"
-              placeholder="At least 8 characters"
+              placeholder={t("passwordPlaceholder")}
               minLength={8}
               required
             />
@@ -141,7 +140,7 @@ export default function RegisterPage() {
               htmlFor="confirmPassword"
               className="mb-2 block text-sm font-medium text-neutral-700"
             >
-              Confirm password
+              {t("confirmPassword")}
             </label>
             <input
               id="confirmPassword"
@@ -149,7 +148,7 @@ export default function RegisterPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full rounded-lg border border-neutral-300 px-4 py-3 text-neutral-900 outline-none transition-colors focus:ring-2 focus:ring-blue-500"
-              placeholder="Re-enter password"
+              placeholder={t("confirmPasswordPlaceholder")}
               minLength={8}
               required
             />
@@ -162,18 +161,18 @@ export default function RegisterPage() {
             disabled={isSubmitting}
             className="w-full rounded-lg bg-blue-600 py-3 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? "Creating account..." : "Create account"}
+            {isSubmitting ? t("submitting") : t("submit")}
           </button>
         </form>
 
         <p className="mt-6 text-center text-sm text-neutral-600">
-          Already have an account?{" "}
-          <a
+          {t("hasAccount")}
+          <Link
             href="/auth/login"
             className="font-medium text-blue-600 hover:text-blue-800"
           >
-            Sign in
-          </a>
+            {t("signIn")}
+          </Link>
         </p>
       </div>
     </main>

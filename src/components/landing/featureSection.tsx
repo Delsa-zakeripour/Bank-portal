@@ -1,42 +1,39 @@
 import { Shield, Zap, Clock, CreditCard, TrendingUp, Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function FeaturesSection() {
+  const t = useTranslations("Landing.features");
+
   const features = [
     {
       icon: Shield,
-      title: "Bank-Grade Security",
-      description:
-        "Your money is protected with 256-bit encryption and multi-factor authentication.",
+      title: t("gradeSecurity"),
+      description: t("gradeSecurityDes"),
     },
     {
       icon: Zap,
-      title: "Instant Transfers",
-      description:
-        "Send and receive money instantly between accounts with zero processing time.",
+      title: t("instantTransfers"),
+      description: t("instantTransfersDescription"),
     },
     {
       icon: Clock,
-      title: "24/7 Support",
-      description:
-        "Our dedicated support team is available round the clock to assist you.",
+      title: t("support"),
+      description: t("supportDes"),
     },
     {
       icon: TrendingUp,
-      title: "Smart Analytics",
-      description:
-        "Track your spending patterns and get insights to help you save more.",
+      title: t("smartAnalys"),
+      description: t("smartAnalysDes"),
     },
     {
       icon: CreditCard,
-      title: "Multiple Cards",
-      description:
-        "Manage all your credit and debit cards in one convenient place.",
+      title: t("multipleCards"),
+      description: t("multipleDes"),
     },
     {
       icon: Lock,
-      title: "Privacy First",
-      description:
-        "We never sell your data. Your financial information stays private.",
+      title: t("privacy"),
+      description: t("privacyDes"),
     },
   ];
 
@@ -44,12 +41,8 @@ export function FeaturesSection() {
     <section id="features" className="py-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Everything You Need
-          </h2>
-          <p className="text-xl text-neutral-400">
-            Powerful features to manage your finances with confidence
-          </p>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">{t("title")} </h2>
+          <p className="text-xl text-neutral-400">{t("subtitle")} </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

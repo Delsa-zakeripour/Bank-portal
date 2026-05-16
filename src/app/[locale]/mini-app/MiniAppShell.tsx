@@ -17,7 +17,7 @@ import Link from "next/link"; // Make sure to import Link
 import { useTheme } from "@/context/ThemeContext";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 type Page = "dashboard" | "transactions" | "transfer" | "cards";
 
@@ -28,6 +28,7 @@ export default function MiniAppShell({
 }) {
   const t = useTranslations("MiniAppShell.navigation");
   const commonT = useTranslations("Common");
+  const locale = useLocale();
   const { theme, toggleTheme } = useTheme();
 
   const pathname = usePathname();
@@ -48,10 +49,11 @@ export default function MiniAppShell({
   };
 
   const isDark = theme === "dark";
+  const isRtl = locale === "fa";
 
   return (
     <div
-      className={`size-full flex ${isDark ? "bg-neutral-900" : "bg-neutral-50"}`}
+      className={`h-screen overflow-hidden ${isDark ? "bg-neutral-900" : "bg-neutral-50"}`}
     >
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
@@ -64,10 +66,14 @@ export default function MiniAppShell({
       {/* Sidebar */}
       <aside
         className={`
-        fixed lg:static inset-y-0 left-0 z-50 h-screen
-        w-64 ${isDark ? "bg-neutral-950 border-neutral-800" : "bg-white border-neutral-200"} border-r
+        fixed inset-y-0 ${isRtl ? "right-0 border-l" : "left-0 border-r"} z-50 h-screen
+        w-64 ${isDark ? "bg-neutral-950 border-neutral-800" : "bg-white border-neutral-200"}
         transform transition-transform duration-300 ease-in-out
-        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+        ${
+          isSidebarOpen
+            ? "translate-x-0"
+            : `${isRtl ? "translate-x-full" : "-translate-x-full"} lg:translate-x-0`
+        }
       `}
       >
         <div className="h-full flex flex-col">
@@ -189,7 +195,15 @@ export default function MiniAppShell({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto">
+      <main
+        className={`h-screen overflow-y-auto ${isRtl ? "lg:mr-64" : "lg:ml-64"}`}
+        style={{
+          scrollbarWidth: "thin",
+          scrollbarColor: isDark
+            ? "#3b4a6b transparent"
+            : "#cbd5e1 transparent" ,
+        }}
+      >
         {/* Mobile Header */}
         <div
           className={`lg:hidden ${isDark ? "bg-neutral-950 border-neutral-800" : "bg-white border-neutral-200"} border-b p-4 flex items-center justify-between sticky top-0 z-30`}

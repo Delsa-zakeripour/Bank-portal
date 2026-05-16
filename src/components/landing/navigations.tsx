@@ -1,4 +1,8 @@
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+
 export function Navigation() {
+  const t = useTranslations("Landing.nav");
   return (
     <nav className="border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -26,25 +30,25 @@ export function Navigation() {
             href="#features"
             className="text-neutral-300 hover:text-white transition-colors"
           >
-            Features
-          </a>
-          <a
-            href="#about"
-            className="text-neutral-300 hover:text-white transition-colors"
-          >
-            About
+            {t("features")}
           </a>
           <a
             href="#security"
             className="text-neutral-300 hover:text-white transition-colors"
           >
-            Security
+            {t("security")}
+          </a>
+          <a
+            href="#about"
+            className="text-neutral-300 hover:text-white transition-colors"
+          >
+            {t("about")}
           </a>
           <a
             href="#contact"
             className="text-neutral-300 hover:text-white transition-colors"
           >
-            Contact
+            {t("contact")}
           </a>
         </div>
 
@@ -56,12 +60,13 @@ export function Navigation() {
             Sign In
           </button> */}
 
-          <a
+          <Link
             href="/auth/login"
-            className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors font-medium inline-block"
+            // className="font-medium text-blue-600 hover:text-blue-800"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors font-medium flex items-center justify-center gap-2 text-lg"
           >
-            Sign In
-          </a>
+            {t("signIn")}
+          </Link>
         </div>
       </div>
     </nav>
