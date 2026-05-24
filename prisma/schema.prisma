@@ -3,6 +3,12 @@
 
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,6 +24,7 @@ model User {
   password      String
   emailVerified DateTime?
   image         String?
+  role     Role   @default(CUSTOMER)
 
   accounts Account[]
   sessions Session[]
