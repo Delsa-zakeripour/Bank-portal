@@ -7,19 +7,20 @@ on:
     branches: [main]
 
 jobs:
- lint:
+  lint:
     runs-on: ubuntu-latest
     steps:
        - name: Test Lint
          run: npm run lint
 
- typecheck:
+  typecheck:
     runs-on: ubuntu-latest
     steps: 
       - name: Typescript check 
         run: npx tsc --noEmit
 
- build:
+  build:
+    needs: [lint, typecheck]
     runs-on: ubuntu-latest
 
     steps:
