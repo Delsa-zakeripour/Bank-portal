@@ -156,7 +156,6 @@ export async function GET(req: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET,
   });
 
-  console.log("tokennnnnn", token);
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
