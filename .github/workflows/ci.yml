@@ -21,9 +21,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Add prisma
-        run: npx prisma generate
-
       - name: Test Lint
         run: npm run lint
 
@@ -70,5 +67,5 @@ jobs:
         run: npm run build
         env:
           DATABASE_URL: "postgresql://ci:ci@localhost:ci"
-          AUTH_SECRET: "ci-not-real"
-          NEXTAUTH_SECRET: "ci-not-real-secret"
+          AUTH_SECRET: ${{secrets.CI_AUTH_SECRET}}
+          NEXTAUTH_SECRET: ${{secrets.CI_AUTH_SECRET}}
