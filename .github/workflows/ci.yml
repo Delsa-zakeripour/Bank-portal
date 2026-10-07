@@ -69,13 +69,3 @@ jobs:
           DATABASE_URL: "postgresql://ci:ci@localhost:ci"
           AUTH_SECRET: ${{secrets.CI_AUTH_SECRET}}
           NEXTAUTH_SECRET: ${{secrets.CI_AUTH_SECRET}}
-
-  debg-secret:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: checkout
-        uses: actions/checkout@v5
-
-      - name: show ci auth secret
-        run: echo ${{secrets.CI_AUTH_SECRET}}
