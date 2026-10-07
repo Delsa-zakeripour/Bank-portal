@@ -13,7 +13,7 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
-// import Link from "next/link"; // Make sure to import Link
+import Link from "next/link"; // Make sure to import Link
 import { useTheme } from "@/context/ThemeContext";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
