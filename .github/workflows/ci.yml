@@ -7,7 +7,19 @@ on:
     branches: [main]
 
 jobs:
-  build:
+ lint:
+    runs-on: ubuntu-latest
+    steps:
+       - name: Test Lint
+         run: npm run lint
+
+ typecheck:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Typescript check 
+        run: npx tsc --noEmit
+
+ build:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,11 +37,6 @@ jobs:
       - name: Add prisma
         run: npx prisma generate
 
-      - name: Test Lint
-        run: npm run lint
-
-      - name: Typescript check 
-        run: npx tsc --noEmit
 
       - name: Build project
         run: npm run build
@@ -37,3 +44,5 @@ jobs:
           DATABASE_URL: "postgresql://ci:ci@localhost:ci"
           AUTH_SECRET: "ci-not-real"
           NEXTAUTH_SECRET: "ci-not-real-secret"
+  
+ 
