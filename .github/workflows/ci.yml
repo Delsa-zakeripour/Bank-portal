@@ -30,3 +30,7 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          DATABASE_URL: "postgresql://ci:ci@localhost:ci"
+          AUTH_SECRET: "ci-not-real"
+          NEXTAUTH_SECRET: "ci-not-real-secret"
