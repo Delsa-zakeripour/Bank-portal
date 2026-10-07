@@ -18,7 +18,7 @@ import {
 import { useTheme } from "@/context/ThemeContext";
 import { useEffect, useMemo, useState } from "react";
 import { DashboardApiResponse } from "@/types/dashboard";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function Dashboard() {
   const { theme } = useTheme();
@@ -26,6 +26,19 @@ export default function Dashboard() {
   const [data, setData] = useState<DashboardApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const t = useTranslations("Dashboard");
+  const locale = useLocale();
+  const isFa = locale === "fa";
+  const localeStr = isFa ? "fa-IR" : "en-US";
+
+  const formatCurrency = (amount: number) => {
+    if (isFa) {
+      return `${amount.toLocaleString("fa-IR", { maximumFractionDigits: 0 })} تومان`;
+    }
+    return amount.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -54,7 +67,7 @@ export default function Dashboard() {
     };
   }, []);
 
-  const accounts = data?.accounts ?? [];
+  const accounts = data?.accounts ?? []; 
   const chartData = data?.spendingOverview.chartData ?? [];
   const recentTransactions = data?.recentTransactions ?? [];
 
@@ -112,10 +125,7 @@ export default function Dashboard() {
           <p
             className={`text-3xl font-semibold ${isDark ? "text-white" : "text-neutral-900"}`}
           >
-            $
-            {totalBalance.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-            })}
+            {formatCurrency(totalBalance)}
           </p>
         </div>
 
@@ -139,10 +149,7 @@ export default function Dashboard() {
           <p
             className={`text-3xl font-semibold ${isDark ? "text-green-400" : "text-green-600"}`}
           >
-            {incomeThisMonth.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+            {formatCurrency(incomeThisMonth)}
           </p>
         </div>
 
@@ -166,10 +173,7 @@ export default function Dashboard() {
           <p
             className={`text-3xl font-semibold ${isDark ? "text-red-400" : "text-red-600"}`}
           >
-            {expensesThisMonth.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+            {formatCurrency(expensesThisMonth)}
           </p>
         </div>
 
@@ -193,7 +197,10 @@ export default function Dashboard() {
           <p
             className={`text-3xl font-semibold ${isDark ? "text-purple-400" : "text-purple-600"}`}
           >
-            {(savingsRate * 100).toFixed(1)}%
+            {(savingsRate * 100).toLocaleString(localeStr, {
+              maximumFractionDigits: 1,
+            })}
+            %
           </p>
         </div>
       </div>
@@ -243,10 +250,7 @@ export default function Dashboard() {
                 <p
                   className={`text-xl font-semibold mt-2 ${isDark ? "text-white" : "text-neutral-900"}`}
                 >
-                  $
-                  {account.balance.toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                  })}
+                  {formatCurrency(account.balance)}
                 </p>
               </div>
             ))}
@@ -372,10 +376,7 @@ export default function Dashboard() {
                 }`}
               >
                 {transaction.amount > 0 ? "+" : ""}
-                {transaction.amount.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}
+                {formatCurrency(Math.abs(transaction.amount))}
               </p>
             </div>
           ))}

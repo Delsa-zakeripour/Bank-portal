@@ -10,7 +10,7 @@ interface LandingPageProps {
   onLogin: () => void;
 }
 
-export default function LandingPage({ onLogin }: LandingPageProps) {
+export default function LandingPage({}: LandingPageProps) {
   return (
     <div className="min-h-screen bg-neutral-950 text-white">
       <Navigation />

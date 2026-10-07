@@ -46,25 +46,36 @@ function getMonthRangeUtc(now = new Date()) {
   return { from, to };
 }
 
-function buildMockDashboard(): DashboardResponse {
+const accountNames: Record<
+  "checking" | "savings" | "investment",
+  { en: string; fa: string }
+> = {
+  checking: { en: "Checking Account", fa: "حساب جاری" },
+  savings: { en: "Savings Account", fa: "حساب پس‌انداز" },
+  investment: { en: "Investment Account", fa: "حساب سرمایه‌گذاری" },
+};
+
+function buildMockDashboard(locale: string): DashboardResponse {
+  const isFa = locale === "fa";
+
   const accounts: DashboardAccount[] = [
     {
       id: 1,
-      name: "Checking Account",
+      name: isFa ? accountNames.checking.fa : accountNames.checking.en,
       balance: 12453.82,
       type: "checking",
       number: "****4532",
     },
     {
       id: 2,
-      name: "Savings Account",
+      name: isFa ? accountNames.savings.fa : accountNames.savings.en,
       balance: 28750.0,
       type: "savings",
       number: "****7821",
     },
     {
       id: 3,
-      name: "Investment Account",
+      name: isFa ? accountNames.investment.fa : accountNames.investment.en,
       balance: 45890.25,
       type: "investment",
       number: "****9012",
@@ -120,7 +131,6 @@ function buildMockDashboard(): DashboardResponse {
 
   const totalBalance = accounts.reduce((sum, a) => sum + a.balance, 0);
 
-  // For now, keep KPIs consistent with the UI’s sample numbers.
   const incomeThisMonth = 4500.0;
   const expensesThisMonth = 279.26;
   const savingsRate =
@@ -151,12 +161,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Future: read query params for range/accountId/etc.
-  const dashboard = buildMockDashboard();
+  const locale = req.headers.get("x-locale") ?? "en";
+  const dashboard = buildMockDashboard(locale);
 
   return NextResponse.json(dashboard, {
     headers: {
-      // Avoid caching per-user data.
       "Cache-Control": "no-store",
     },
   });
