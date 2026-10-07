@@ -1,8 +1,12 @@
-name: Workflows
+name: CI
 
 on:
   push: 
-   branches: [main]
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+
 
 jobs:
   build: 
@@ -12,8 +16,14 @@ jobs:
       - name: checkout
         uses: actions/checkout@v5
 
-      - name: print Hello bank-portal
-        run:  echo "Hello bank-portal"
+      - name: Setup Node
+        uses: actions/setp-node@v24.13.0
 
-      - name: show file list
-        run: ls 
+      - name: install dependencies
+        run: npm ci
+
+      - name: Test Lint
+        run: npm run lint
+
+      - name: Build project
+        run : npm run build
