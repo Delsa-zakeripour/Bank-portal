@@ -4,7 +4,7 @@ import { loginSchema, registerSchema } from "./auth.schema";
 describe("loginSchema", () => {
   it("accepts a valid email and password", () => {
     const result = loginSchema.safeParse({
-      email: "user@example.com",
+      email: "user@example",
       password: "12345678",
     });
 
