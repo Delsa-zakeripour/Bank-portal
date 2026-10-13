@@ -13,6 +13,16 @@ jobs:
     environment: ${{ inputs.environment }}
 
     steps:
+      - name: Check required secrets
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ] || [ -z "$DEPLOY_HOOK" ]; then
+            echo "::error::Missing secrets for environment '${{ inputs.environment }}'"
+            exit 1
+          fi
+
       - name: checkout
         uses: actions/checkout@v5
 
