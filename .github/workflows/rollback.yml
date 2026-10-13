@@ -1,0 +1,21 @@
+name: Rollback Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Commit SHA to roll back to"
+        required: true
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+  
+      - name: Deploy previous image to Render
+        env:
+          DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          IMAGE: ghcr.io/delsa-zakeripour/bank-portal:${{ inputs.sha }}
+        run: curl -f -X POST "$DEPLOY_HOOK&imgURL=$IMAGE"
