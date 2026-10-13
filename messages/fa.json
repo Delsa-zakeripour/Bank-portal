@@ -128,7 +128,7 @@
   },
   "Dashboard": {
     "title": "داشبورد",
-    "subtitle": "  خلاصه‌ی وضعیت مالی ",
+    "subtitle": " :: خلاصه‌ی وضعیت مالی ",
     "totalBalance": "موجودی کل",
     "incomeThisMonth": "درآمد این ماه",
     "expensesThisMonth": "هزینه‌های این ماه",
