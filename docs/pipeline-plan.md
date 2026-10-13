@@ -56,3 +56,89 @@ CI این مرحله رو **Pass** حساب می‌کنه. این خطرناکه
 | 🧠 چه مفاهیمی باید بلد باشم | exit code، `npm ci`، چرا `.env` در CI وجود نداره |
 | 🛠 چه چیزی پیاده‌سازی کردم | طرح Pipeline برای bank-portal (همین فایل) |
 | ❓ هنوز نیاز به تمرین دارد | مسئله‌ی `.env` و Secrets (در مرحله‌ی ۶ کامل میشه) |
+
+---
+
+# 📋 خلاصه: CD، Staging، Production و Rollback (Lesson 9 و 10)
+
+## 🎯 CD Pipeline (Lesson 9)
+
+بعد از Merge، کد **خودکار** روی سرور میره.
+
+| بخش | چی ساختیم |
+|---|---|
+| 🗄️ دیتابیس | PostgreSQL روی **Neon** (Frankfurt، با `sslmode=require`) |
+| 🖥️ سرور | **Render** که Image رو از GHCR اجرا می‌کنه |
+| 🔄 Migration | `prisma migrate deploy` در CI، **نه** `migrate dev` |
+| 🚀 Deploy | `curl -f` به **Deploy Hook** با `imgURL=...:<sha>` |
+
+**نکات کلیدی:**
+- ترتیب: `docker` ← `migrate` ← `deploy`. هرگز دیتابیس جدید با کد قدیمی
+- `if: github.event_name == 'push'`: PRها به Production دست نمی‌زنن
+- `curl -f`: بدون اون، خطای HTTP باعث **سبز کاذب** میشه
+- Secret ناموجود = **رشته‌ی خالی**، نه خطا
+- Skipped ≠ اجرا شده
+- `migrate deploy` **Idempotent** است: اجرای چندباره‌اش بی‌خطره
+
+## 🎯 Staging و Production (Lesson 10)
+
+Staging = تمرین لباس 🎭. **همون Image** اول روی Staging، بعد با **تأیید انسان** روی Production.
+
+```
+docker ──→ 🧪 deploy-staging ──→ 👤 Approval ──→ 🌍 deploy-production
+              (migrate + deploy)                    (migrate + deploy)
+```
+
+| | Staging 🧪 | Production 🌍 |
+|---|---|---|
+| Neon branch | `staging` (schema only) | `production` |
+| Render | `bank-portal-staging` | `bank-portal` |
+| GitHub Environment | `staging` | `production` |
+| Required reviewers | ❌ خودکار | ✅ خودم |
+| Deployment branches | فقط `main` | فقط `main` |
+| `AUTH_SECRET` | مخصوص خودش | مخصوص خودش |
+
+**نکات کلیدی:**
+- **Environment Secrets:** اسم یکسان (`DATABASE_URL`)، مقدار متفاوت برای هر محیط
+- ⚠️ هرگز Secret هم‌نام در سطح **ریپو** و **Environment** نذار. اگه Secret محیط حذف بشه، بی‌صدا به Secret ریپو برمی‌گرده
+- **یک Job برای هر محیط**: هر Job با Environment محافظت‌شده **جداگانه** Approval می‌خواد
+- `needs: [deploy-staging]`: Production فقط بعد از **موفقیت** Staging
+- **Allow administrators to bypass** رو برای Production خاموش کن
+- این یعنی **Continuous Delivery**، همون انتخاب Lesson 1 برای بانک ✅
+
+## 🎯 Rollback و درس‌های Production
+
+`.github/workflows/rollback.yml`:
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      sha: ...
+jobs:
+  rollback:
+    environment: production
+    steps: curl -f ... imgURL=...:${{ inputs.sha }}
+```
+
+- **بدون build جدید.** فقط Image قبلی از GHCR. حدود ۱ دقیقه ⚡
+- **هرگز Migration اجرا نمی‌کنه.** کد برمی‌گرده، دیتابیس **نه**
+- Migrationها رو **Backward-compatible** بنویس: اضافه کردن ✅، حذف یا تغییر اسم ⚠️ (الگوی Expand / Contract)
+- **اول خونریزی رو متوقف کن** (Rollback)، بعد علت رو پیدا کن (Fix Forward)
+- **قانون حادثه:** بعد از Rollback، Deploymentهای **منتظر** رو Reject کن
+- **منبع حقیقت = Render**، نه لیست Deploymentهای GitHub
+
+## 🏗️ Pipeline نهایی
+
+```
+PR:   lint ∥ typecheck ∥ test ──→ build ∥ docker (build only)        🛡️ Ruleset: ۵ Check الزامی
+main: ... ──→ docker (push :latest + :sha) ──→ 🧪 staging ──→ 👤 ──→ 🌍 production
+دستی: Rollback Production (هر SHA دلخواه) ⏪⏩
+```
+
+## ❓ باقی‌مونده برای Lesson 11
+
+- تکرار در `deploy-staging` و `deploy-production` ← **Reusable Workflows**
+- Deploy هم‌زمان با دو Merge پشت سر هم ← **Concurrency**
+- `docker` در CI هر بار از صفر build می‌کنه ← **Buildx GHA Cache**
+- هشدار `SecretsUsedInArgOrEnv` ← **BuildKit secrets**
+- امنیت وابستگی‌ها ← **Dependabot** و **Permissions**
