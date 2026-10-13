@@ -129,9 +129,45 @@ jobs:
           include-hidden-files: true
           retention-days: 7
 
-  migrate:
+  # migrate:
+  #   needs: [docker]
+  # if: github.event_name == 'push'
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v5
+
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v7
+  #       with:
+  #         node-version: v24
+  #         cache: npm
+
+  #     - name: Install dependencies
+  #       run: npm ci
+
+  #     - name: Run database migrations
+  #       run: npx prisma migrate deploy
+  #       env:
+  #         DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+
+  # deploy:
+  #   needs: [docker, migrate]
+  #   if: github.event_name == 'push'
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Deploy to Render
+  #       env:
+  #         DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+  #         IMAGE: ghcr.io/delsa-zakeripour/bank-portal:${{ github.sha }}
+  #       run: curl -f -X POST "$DEPLOY_HOOK&imgURL=$IMAGE"
+
+  deploy-staging:
     needs: [docker]
     if: github.event_name == 'push'
+    environment: staging
     runs-on: ubuntu-latest
 
     steps:
@@ -150,14 +186,38 @@ jobs:
       - name: Run database migrations
         run: npx prisma migrate deploy
         env:
-          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-  deploy:
-    needs: [docker, migrate]
+      - name: Deploy to Render
+        env:
+          DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          IMAGE: ghcr.io/delsa-zakeripour/bank-portal:${{ github.sha }}
+        run: curl -f -X POST "$DEPLOY_HOOK&imgURL=$IMAGE"
+
+  deploy-production:
+    needs: [deploy-staging]
     if: github.event_name == 'push'
+    environment: production
     runs-on: ubuntu-latest
 
     steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: v24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run database migrations
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Deploy to Render
         env:
           DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
